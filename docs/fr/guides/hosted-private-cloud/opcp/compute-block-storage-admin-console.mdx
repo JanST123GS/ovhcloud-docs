@@ -47,7 +47,7 @@ Chaque organisation ne voit que ses propres instances, volumes et réseaux.
 
     <img className="thumbnail" alt="Affectation des hôtes d'un pool d'hôtes : projet OpenStack et liste des hôtes disponibles" src="/images/hosted-private-cloud/opcp/compute-block-storage-admin-console/deploy_host_pools.png" loading="lazy" />
 
-4. **Configurez votre service**. Le service a deux paramètres, chacun avec une valeur par défaut adaptée à la plupart des déploiements. Consultez la section [Paramètres](#paramètres) ci-dessous.
+4. **Configurez votre service**. Le service a trois paramètres, chacun avec une valeur par défaut adaptée à la plupart des déploiements. Consultez la section [Paramètres](#paramètres) ci-dessous.
 5. Cliquez sur <code className="action">Deploy</code>.
 
 :::warning
@@ -69,6 +69,7 @@ Les gabarits d'instance (gabarits `opcp-`) et l'agrégat d'hôtes qui les place 
 |-----------|-------------------|-------------|
 | `horizon_enabled` | `true` | Déploie l'interface web Horizon. Les utilisateurs des organisations y accèdent via un lien dans l'OPCP Cloud Console, pour les cas que l'interface du service ne couvre pas encore. |
 | `allow_uninstall_with_bound_nodes` | `false` | Autorise la suppression du déploiement de service alors que des hôtes sont encore utilisés. Les hôtes sont alors libérés et effacés. Laissez-le à `false`, sauf si le support OVHcloud vous demande de le modifier. |
+| `ceph_publish_endpoint_as_default` | `auto` | Fait du cluster Ceph de ce déploiement de service le type de volume par défaut de la plateforme : les volumes créés sans type y sont stockés. Un seul cluster de stockage par plateforme peut être celui par défaut. `auto` : oui, sauf si un autre l'est déjà. `always` : oui, et le déploiement échoue tant qu'un autre l'est. `never` : non. Laissez-le à `auto`. |
 
 ### Outputs
 
@@ -171,7 +172,7 @@ L'Alpha présente les limitations connues suivantes :
 | Compute and Block Storage ne peut être déployé qu'une seule fois par plateforme : un second déploiement échoue. | Ne déployez le service qu'une seule fois par plateforme. |
 | Un déploiement de service ne peut pas être mis à jour sur place. | Supprimez-le et déployez la nouvelle version. |
 | La désactivation du service échoue pour une organisation dont le nom contient une espace. | Utilisez des noms d'organisation sans espace. |
-| La suppression d'un déploiement de service laisse des ressources derrière elle, et le cluster Ceph est volontairement conservé. Un nouveau déploiement échoue tant qu'elles n'ont pas été nettoyées. | Contactez OVHcloud pour les faire nettoyer avant de redéployer. |
+| La suppression d'un déploiement de service laisse des ressources derrière elle, dont la marque qui fait de son cluster Ceph le type de volume par défaut, et le cluster Ceph est volontairement conservé. Un nouveau déploiement échoue tant qu'elles n'ont pas été nettoyées. | Contactez OVHcloud pour les faire nettoyer avant de redéployer. |
 
 ### Dépannage
 

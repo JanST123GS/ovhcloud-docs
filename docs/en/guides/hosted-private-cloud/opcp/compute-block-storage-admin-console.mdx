@@ -47,7 +47,7 @@ Each Organization only sees its own instances, volumes and networks.
 
     <img className="thumbnail" alt="Allocating the hosts of a Host Pool: OpenStack project and list of available hosts" src="/images/hosted-private-cloud/opcp/compute-block-storage-admin-console/deploy_host_pools.png" loading="lazy" />
 
-4. **Configure your service**. The service has two settings, both with a default value that suits most deployments. See [Settings](#settings) below.
+4. **Configure your service**. The service has three settings, each with a default value that suits most deployments. See [Settings](#settings) below.
 5. Click <code className="action">Deploy</code>.
 
 :::warning
@@ -69,6 +69,7 @@ The instance flavors (`opcp-` flavors) and the host aggregate that places them o
 |---------|---------|-------------|
 | `horizon_enabled` | `true` | Deploys the Horizon web interface. Organization users reach it through a link in the OPCP Cloud Console, for the cases the service interface does not cover yet. |
 | `allow_uninstall_with_bound_nodes` | `false` | Allows deleting the Service Deployment while hosts are still in use. The hosts are then released and wiped. Leave it at `false` unless OVHcloud support asks you to change it. |
+| `ceph_publish_endpoint_as_default` | `auto` | Makes the Ceph cluster of this Service Deployment the default volume type of the platform: volumes created without a type are stored there. Only one storage cluster per platform can be the default. `auto`: yes, unless another one already is. `always`: yes, and the deployment fails while another one is. `never`: no. Leave it at `auto`. |
 
 ### Outputs
 
@@ -171,7 +172,7 @@ The Alpha has the following known limitations:
 | Compute and Block Storage can be deployed only once per platform: a second deployment fails. | Deploy the service only once per platform. |
 | A Service Deployment cannot be upgraded in place. | Delete it and deploy the new version. |
 | Disabling the service fails for an Organization whose name contains a space. | Use Organization names without spaces. |
-| Deleting a Service Deployment leaves resources behind, and the Ceph cluster is deliberately kept. A new deployment fails until they are cleaned up. | Contact OVHcloud to have them cleaned up before you deploy again. |
+| Deleting a Service Deployment leaves resources behind, including the mark that makes its Ceph cluster the default volume type, and the Ceph cluster is deliberately kept. A new deployment fails until they are cleaned up. | Contact OVHcloud to have them cleaned up before you deploy again. |
 
 ### Troubleshooting
 
